@@ -137,7 +137,7 @@ A specialized recurrent area that can be trained on specific assemblies and then
 - `n_neurons`: Number of neurons
 - `cap_size`: Size of assemblies
 - `density`: Connection density
-- `plasticity`: Plasticity parameter (note: internally overridden to 3.0 in the super class initialization)
+- `plasticity`: This parameter is accepted but ignored; the class internally uses a fixed plasticity of 3.0
 - `norm_init`: Whether to normalize (default: False)
 
 **Key Methods:**
@@ -252,7 +252,7 @@ A network that can generate stochastic sequences by incorporating randomness int
 - `random_area`: RandomChoiceArea that provides stochasticity
 
 **Key Methods:**
-- `train(state, rand, new_state, symbol)`: Train a probabilistic transition where `rand` is an integer index (0, 1, etc.) that selects which random choice to use (each corresponding to a different cap_size-sized group of neurons in the random area)
+- `train(state, rand, new_state, symbol)`: Train a probabilistic transition where `rand` is an integer index (0, 1, etc.) that maps to a specific range of neurons in the random area (specifically, neurons from `rand*cap_size` to `(rand+1)*cap_size`), with each range representing a different random choice outcome
 - `step()`: Execute one generation step (without updating weights)
 - `read(dense=False)`: Read generated symbol
 
