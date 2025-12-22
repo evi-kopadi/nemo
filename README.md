@@ -137,12 +137,12 @@ A specialized recurrent area that can be trained on specific assemblies and then
 - `n_neurons`: Number of neurons
 - `cap_size`: Size of assemblies
 - `density`: Connection density
-- `plasticity`: Fixed at 3.0 internally
+- `plasticity`: Plasticity parameter (note: internally overridden to 3.0 in the super class initialization)
 - `norm_init`: Whether to normalize (default: False)
 
 **Key Methods:**
 - `train(assemblies)`: Train on a list of assemblies (each represented as neuron indices)
-- `flip(n_rounds=10)`: Randomly select one of the trained assemblies
+- `flip(n_rounds=10)`: Randomly select one of the trained assemblies after n_rounds of recurrent dynamics
 
 **Example:**
 ```python
@@ -252,7 +252,7 @@ A network that can generate stochastic sequences by incorporating randomness int
 - `random_area`: RandomChoiceArea that provides stochasticity
 
 **Key Methods:**
-- `train(state, rand, new_state, symbol)`: Train a probabilistic transition
+- `train(state, rand, new_state, symbol)`: Train a probabilistic transition where `rand` is an integer index (0, 1, etc.) that selects which random choice to use (each corresponding to a different cap_size-sized group of neurons in the random area)
 - `step()`: Execute one generation step (without updating weights)
 - `read(dense=False)`: Read generated symbol
 
@@ -282,7 +282,7 @@ A specialized recurrent area that implements attention-like mechanisms by tracki
 
 **Key Methods (in addition to RecurrentArea):**
 - `decay_weights()`: Remove recent weight changes, returning to baseline connectivity
-- `update(new_activations)`: Only updates recurrent weights (not input weights), with tracked changes
+- `update(new_activations)`: Only updates recurrent weights (not input weights). Tracks the change amount in `recurrent_change` matrix while applying standard Hebbian plasticity, enabling later decay back to baseline
 
 **Example:**
 ```python
