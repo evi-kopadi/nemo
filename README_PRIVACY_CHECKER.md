@@ -92,10 +92,7 @@ The script queries the GitHub API for each repository and reports:
 
 ## Note
 
-Without authentication, the script can only check:
-- Public repositories you have access to
-- May hit API rate limits quickly
-
-With authentication (GITHUB_TOKEN), you can check:
-- All repositories you have access to (including private ones)
-- Higher API rate limits (5000 requests/hour instead of 60)
+**Limitations:**
+- Without authentication, the script can only check public repositories and may hit API rate limits quickly (60 requests/hour)
+- With authentication (GITHUB_TOKEN), you can check all repositories you have access to with higher API rate limits (5000 requests/hour)
+- The `--user` mode currently fetches up to 100 repositories. If you have more than 100 repositories, only the first 100 will be shown.

@@ -25,6 +25,11 @@ def list_user_repos(username, token=None):
     
     Returns:
         list: List of repository information dictionaries
+    
+    Note:
+        This function fetches up to 100 repositories. Users with more than 100
+        repositories will have incomplete results. Pagination can be implemented
+        if needed by following GitHub's API pagination.
     """
     api_url = f"https://api.github.com/users/{username}/repos?per_page=100"
     
@@ -112,11 +117,24 @@ def check_repo_privacy(owner, repo, token=None):
 
 
 def main():
+    # Handle --help first
+    if len(sys.argv) >= 2 and sys.argv[1] in ['-h', '--help', 'help']:
+        print("Usage: python check_repo_privacy.py <owner/repo> [<owner/repo> ...]")
+        print("       python check_repo_privacy.py --user <username>")
+        print("\nExamples:")
+        print("  python check_repo_privacy.py evi-kopadi/nemo")
+        print("  python check_repo_privacy.py torvalds/linux microsoft/vscode")
+        print("  python check_repo_privacy.py --user evi-kopadi")
+        print("\nSet GITHUB_TOKEN environment variable for authentication if needed.")
+        sys.exit(0)
+    
     if len(sys.argv) < 2:
         print("Usage: python check_repo_privacy.py <owner/repo> [<owner/repo> ...]")
         print("       python check_repo_privacy.py --user <username>")
-        print("Example: python check_repo_privacy.py evi-kopadi/nemo")
-        print("         python check_repo_privacy.py --user evi-kopadi")
+        print("\nExamples:")
+        print("  python check_repo_privacy.py evi-kopadi/nemo")
+        print("  python check_repo_privacy.py torvalds/linux microsoft/vscode")
+        print("  python check_repo_privacy.py --user evi-kopadi")
         print("\nSet GITHUB_TOKEN environment variable for authentication if needed.")
         sys.exit(1)
     
